@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "AAAA,AAAA,eAAe,CAAC;EACZ,UAAU,EAAE,MAAM;EAClB,UAAU,EAAE,IAAI;EAChB,aAAa,EAAE,IAAI;CAEA;;AALvB,AAII,eAJW,CAIX,GAAG,CAAC;EACA,KAAK,EAAE,GAAG;CAAG",
+    "sources": [
+        "NavigationBar.sass"
+    ],
+    "names": [],
+    "file": "NavigationBar.css"
+}

@@ -1,0 +1,30 @@
+.authentication-form {
+  width: 60%;
+  margin: 0 auto;
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 1fr;
+      grid-template-columns: 1fr;
+}
+
+.authentication-form .card {
+  padding: 20px;
+  width: 100% !important;
+}
+
+.authentication-form h2 {
+  text-align: center;
+}
+
+.authentication-form .input input {
+  margin: 10px 0;
+  width: 100%;
+  height: 40px;
+}
+
+.authentication-form button {
+  margin: 10px 0 !important;
+  width: 100%;
+  height: 40px;
+}
+/*# sourceMappingURL=AuthenticationForm.css.map */

@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "AAAA,AACI,SADK,CACL,aAAa,CAAC;EACV,SAAS,EAAE,IAAI;EACf,UAAU,EAAE,MAAM;CAAG",
+    "sources": [
+        "Greeting.sass"
+    ],
+    "names": [],
+    "file": "Greeting.css"
+}

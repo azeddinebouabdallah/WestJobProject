@@ -1,0 +1,13 @@
+.policy .card {
+  width: 100%;
+  padding: 20px;
+}
+
+.policy .card p, .policy .card h2 {
+  padding: 0 5%;
+}
+
+.policy .card .buttons {
+  margin: 10px 0;
+}
+/*# sourceMappingURL=Policy.css.map */

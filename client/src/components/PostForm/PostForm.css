@@ -1,0 +1,40 @@
+.post-form {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 10% 80% 10%;
+      grid-template-columns: 10% 80% 10%;
+  grid-gap: 30px;
+}
+
+.post-form .card {
+  width: 100%;
+  padding: 20px;
+}
+
+.post-form .card .news-post {
+  padding: 10px 30px;
+}
+
+.post-form .card .rating-box {
+  margin-top: 40px;
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 1fr 1fr;
+      grid-template-columns: 1fr 1fr;
+  grid-gap: 30px;
+}
+
+.post-form .card .rating-box .believability-index, .post-form .card .rating-box .piror-knowledge-index {
+  display: -ms-grid;
+  display: grid;
+}
+
+.post-form button {
+  border-radius: 50px !important;
+  height: 50px;
+  width: -webkit-fill-available;
+  width: -moz-available;
+  width: fill;
+  margin-top: 115px !important;
+}
+/*# sourceMappingURL=PostForm.css.map */

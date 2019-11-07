@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "AAAA,AACI,OADG,CACH,KAAK,CAAC;EACF,KAAK,EAAE,IAAI;EACX,OAAO,EAAE,IAAI;CAIU;;AAP/B,AAIQ,OAJD,CACH,KAAK,CAGD,CAAC,EAJT,OAAO,CACH,KAAK,CAGE,EAAE,CAAC;EACF,OAAO,EAAE,IAAI;CAAG;;AAL5B,AAMQ,OAND,CACH,KAAK,CAKD,QAAQ,CAAC;EACL,MAAM,EAAE,MAAM;CAAG",
+    "sources": [
+        "Policy.sass"
+    ],
+    "names": [],
+    "file": "Policy.css"
+}

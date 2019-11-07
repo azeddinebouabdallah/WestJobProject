@@ -1,10 +1,14 @@
 import React from "react";
 
+import './NavigationBar.css'
+
+import logo from './logo_west_small.png'
+
 function NavigationBar(props) {
   return (
-    <div id="navigation-bar">
-      <h1>WeST (Koblenz-Landau University)</h1>
-      <h2>Science Expirement</h2>
+    <div className="navigation-bar">
+      <img src={logo}/>
+      <h1>Science Expirement</h1>
     </div>
   );
 }
