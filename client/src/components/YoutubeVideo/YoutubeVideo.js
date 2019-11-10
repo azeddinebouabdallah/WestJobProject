@@ -1,18 +1,21 @@
 import React from "react";
+import './YoutubeVideo.css'
 
 const YoutubeVideo = props => {
+  let url = props.url.split('?v=')[1];
+  console.log(url)
   return (
-    <div className="youtube-vide">
+    <div className="youtube-video">
       <iframe
-        width="560"
-        height="315"
-        src="https://www.youtube.com/embed/_uQrJ0TkZlc"
+        id="ytplayer"
+        type="text/html"
+        width="640"
+        height="360"
+        src={`https://www.youtube.com/embed/${url}?autoplay=0`}
         frameborder="0"
-        allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-        allowfullscreen
       ></iframe>
     </div>
   );
 };
 
-export default YoutubeVideo
+export default YoutubeVideo;

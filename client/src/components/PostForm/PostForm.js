@@ -1,32 +1,45 @@
 import React, { useState, useEffect } from "react";
 
+import renderHTML from 'react-render-html';
+
 import "./PostForm.css";
 
 import { Card, Button, Rating } from "semantic-ui-react";
 
-import TwitterPost from '../TwitterPost/TwitterPost'
-import FacebookPost from '../FacebookPost/FacebookPost'
-import YoutubeVideo from '../YoutubeVideo/YoutubeVideo'
+import TwitterPost from "../TwitterPost/TwitterPost";
+import FacebookPost from "../FacebookPost/FacebookPost";
+import YoutubeVideo from "../YoutubeVideo/YoutubeVideo";
+import BlogPost from "../BlogPost/BlogPost";
 
 function PostForm() {
   // the states of the post form component
-  const [believabilityRatings] = useState([]);
-  const [pirorKnowledgeRatings] = useState([]);
+  const [believabilityRatings, setBelievabilityIndex] = useState([]);
+  const [pirorKnowledgeRatings, setPirorKnowledgeIndex] = useState([]);
   const [newsIndex, setNewsIndex] = useState(0);
   const [newsComponent, setNewsComponent] = useState(<p>Loading...</p>);
+  const [maxSize, setMaxSize] = useState(0);
+  const [buttonText, setButtonText] = useState('Next')
 
   const fetchData = index => {
+    console.log(newsIndex)
     fetch(`http://localhost:3000/${newsIndex}`)
       .then(res => res.json())
       .then(result => {
-        if (result.news_type === 'twitter'){
-          setNewsComponent(<TwitterPost/>)
-        }else if (result.news_type === 'facebook'){
-          setNewsComponent(<FacebookPost/>)
-        }else if (result.news_type === 'youtube'){
-          setNewsComponent(<YoutubeVideo/>)
-        }else {
-          setNewsComponent(<p>blog</p>)
+        if (result.news_type === "twitter") {
+          setNewsComponent(<TwitterPost url={result.claim_url} />);
+        } else if (result.news_type === "facebook") {
+          setNewsComponent(<FacebookPost url={result.claim_url} />);
+        } else if (result.news_type === "youtube") {
+          setNewsComponent(<YoutubeVideo url={result.claim_url} />);
+        } else if (result.news_type === 'perma'){
+          setNewsComponent(<div className="perma-news">{renderHTML(result.content)}</div>)
+        } else{
+          setNewsComponent(
+            <BlogPost
+              title={result.content.newsTitle}
+              content={result.content.newsContent}
+            />
+          );
         }
       })
       .catch(err => {
@@ -34,24 +47,62 @@ function PostForm() {
       });
   };
 
-  useEffect(() => {
-    fetchData(newsIndex)
-  });
-
-  const increaseNewsIndex = () => {
-    setNewsIndex(newsIndex + 1);
+  const fetchSize = () => {
+    fetch("http://localhost:3000/size")
+      .then(res => res.json())
+      .then(res => {
+        setMaxSize(res.size - 1);
+      });
   };
 
+  useEffect(() => {
+    fetchData(newsIndex);
+    fetchSize();
+    setBelievabilityIndex([0]);
+    setPirorKnowledgeIndex([0]);
+  }, []);
+
+  useEffect(() => {
+    fetchData(newsIndex);
+  },[newsIndex]) 
+
   const onRangeChangeBelievability = value => {
-    believabilityRatings[newsIndex] = value;
+    let newArr = [...believabilityRatings];
+    newArr[newsIndex] = value;
+    setBelievabilityIndex(newArr);
   };
 
   const onRangeChangePirorKnowledge = value => {
-    pirorKnowledgeRatings[newsIndex] = value;
+    let newArr = [...pirorKnowledgeRatings];
+    newArr[newsIndex] = value;
+    setPirorKnowledgeIndex(newArr);
   };
 
   const onNextNewsClick = e => {
-    setNewsIndex(newsIndex + 1);
+    setBelievabilityIndex([...believabilityRatings, 0]);
+    setPirorKnowledgeIndex([...pirorKnowledgeRatings, 0]);
+    if (newsIndex !== maxSize) {
+      setNewsIndex(newsIndex + 1);
+    }
+    if (newsIndex === maxSize -1){
+      setButtonText('Finish')
+    }
+    if (newsIndex === maxSize) {
+      let jsonBody = JSON.stringify({
+        believabilityIndexes: believabilityRatings,
+        pirorKnowledgeIndexes: pirorKnowledgeRatings,
+        email: 'test@test.com'
+      })
+      fetch('http://localhost:3000/survey', {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: jsonBody
+      }).then(res => console.log('SENT'))
+      window.location.href = 'http://localhost:3001/greeting'
+    }
   };
 
   return (
@@ -96,7 +147,7 @@ function PostForm() {
         </div>
       </Card>
       <Button primary onClick={onNextNewsClick}>
-        Next
+        {buttonText}
       </Button>
     </div>
   );
