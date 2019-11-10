@@ -5,6 +5,14 @@ import {Button, Card} from 'semantic-ui-react'
 import './Policy.css'
 
 function Policy (props){
+
+    const onDisagreeClick = e => {
+        window.location.href = 'http://localhost:3001/greeting'
+    }
+    const onAgreeClick = e => {
+        window.location.href = 'http://localhost:3001/survey'
+    }
+
     return (<div className='policy'>
         <Card>
         <h2>Usage, Terms and Regulations</h2>
@@ -22,9 +30,9 @@ function Policy (props){
         deserunt mollit anim id est laborum.
         </p>
         <Button.Group>
-            <Button>I Don't Agree</Button>
+            <Button onClick={onDisagreeClick}>I Don't Agree</Button>
             <Button.Or></Button.Or>
-            <Button positive>I Agree</Button>
+            <Button positive onClick={onAgreeClick}>I Agree</Button>
         </Button.Group>
 
         </Card>

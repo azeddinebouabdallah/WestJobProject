@@ -1,37 +1,64 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import "./PostForm.css";
 
 import { Card, Button, Rating } from "semantic-ui-react";
 
+import TwitterPost from '../TwitterPost/TwitterPost'
+import FacebookPost from '../FacebookPost/FacebookPost'
+import YoutubeVideo from '../YoutubeVideo/YoutubeVideo'
+
 function PostForm() {
-  const [believabilityRating, setBelievabilityRating] = useState(0);
-  const [pirorKnowledgeRating, setPirorKnowledgeRating] = useState(0);
+  // the states of the post form component
+  const [believabilityRatings] = useState([]);
+  const [pirorKnowledgeRatings] = useState([]);
+  const [newsIndex, setNewsIndex] = useState(0);
+  const [newsComponent, setNewsComponent] = useState(<p>Loading...</p>);
+
+  const fetchData = index => {
+    fetch(`http://localhost:3000/${newsIndex}`)
+      .then(res => res.json())
+      .then(result => {
+        if (result.news_type === 'twitter'){
+          setNewsComponent(<TwitterPost/>)
+        }else if (result.news_type === 'facebook'){
+          setNewsComponent(<FacebookPost/>)
+        }else if (result.news_type === 'youtube'){
+          setNewsComponent(<YoutubeVideo/>)
+        }else {
+          setNewsComponent(<p>blog</p>)
+        }
+      })
+      .catch(err => {
+        console.error(err);
+      });
+  };
+
+  useEffect(() => {
+    fetchData(newsIndex)
+  });
+
+  const increaseNewsIndex = () => {
+    setNewsIndex(newsIndex + 1);
+  };
 
   const onRangeChangeBelievability = value => {
-    setBelievabilityRating(value);
+    believabilityRatings[newsIndex] = value;
   };
 
   const onRangeChangePirorKnowledge = value => {
-    setPirorKnowledgeRating(value);
+    pirorKnowledgeRatings[newsIndex] = value;
   };
+
+  const onNextNewsClick = e => {
+    setNewsIndex(newsIndex + 1);
+  };
+
   return (
     <div className="post-form">
       <div className="control-div"></div>
       <Card>
-        <div className="news-post">
-          <h2>Some news or post text</h2>
-          <p>
-            Post text content goes here Lorem ipsum dolor sit amet, consectetur
-            adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-            dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
-            exercitation ullamco laboris nisi ut aliquip ex ea commodo
-            consequat. Duis aute irure dolor in reprehenderit in voluptate velit
-            esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-            cupidatat non proident, sunt in culpa qui officia deserunt mollit
-            anim id est laborum.
-          </p>
-        </div>
+        <div className="news-post">{newsComponent}</div>
         <div className="rating-box">
           <div className="believability-index">
             <h3>Believability Index:</h3>
@@ -42,9 +69,13 @@ function PostForm() {
               max="5"
               onChange={e => onRangeChangeBelievability(e.target.value)}
               name="believability-range"
-              value={believabilityRating}
+              value={believabilityRatings[newsIndex]}
             />
-            <Rating disabled maxRating={5} rating={believabilityRating} />
+            <Rating
+              disabled
+              maxRating={5}
+              rating={believabilityRatings[newsIndex]}
+            />
           </div>
           <div className="piror-knowledge-index">
             <h3>Piror Knowledge Index:</h3>
@@ -54,13 +85,19 @@ function PostForm() {
               max="5"
               onChange={e => onRangeChangePirorKnowledge(e.target.value)}
               name="piror-knowledge-range"
-              value={pirorKnowledgeRating}
+              value={pirorKnowledgeRatings[newsIndex]}
             />
-            <Rating maxRating={5} rating={pirorKnowledgeRating} disabled />
+            <Rating
+              maxRating={5}
+              rating={pirorKnowledgeRatings[newsIndex]}
+              disabled
+            />
           </div>
         </div>
       </Card>
-      <Button primary>Next</Button>
+      <Button primary onClick={onNextNewsClick}>
+        Next
+      </Button>
     </div>
   );
 }
